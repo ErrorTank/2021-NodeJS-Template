@@ -11,5 +11,17 @@ export const Errors = {
     code: 400,
     id: "ENV_FILE_NOT_FOUND",
     message: "Couldn't find .env file."
-  }
+  },
+  GENERATE_AUTH_JWT_FAILED: {
+    code: 400,
+		id: "GENERATE_AUTH_JWT_FAILED"
+  },
+	GENERATE_AUTH_JWT_FAILED: {
+    code: 400,
+		id: "GENERATE_AUTH_JWT_FAILED"
+  },
+	AUTHENTICATE_USER_FAILED: {
+		code: 401,
+		id: "AUTHENTICATE_USER_FAILED"
+	}
 };

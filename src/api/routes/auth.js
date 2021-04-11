@@ -1,5 +1,5 @@
 import { Router } from "express";
-import Logger from "../../loaders/logger";
+import Logger from "../../base/logger";
 import AuthService from "../../services/auth";
 const app = Router();
 
