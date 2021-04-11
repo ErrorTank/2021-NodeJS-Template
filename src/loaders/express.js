@@ -3,11 +3,7 @@ import cors from 'cors';
 import routes from '../api';
 import middlewares from '../api/middlewares';
 import config from '../config';
-
-const swaggerUi = require('swagger-ui-express');
-
-
-
+import AppError from "../utils/error";
 
 export default ({ app }) => {
   // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, options));
@@ -32,9 +28,7 @@ export default ({ app }) => {
 
 
   app.use((req, res, next) => {
-    const err = new Error('Not Found');
-    err['status'] = 404;
-    next(err);
+    next(AppError());
   });
 
 

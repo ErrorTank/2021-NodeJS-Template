@@ -1,44 +1,23 @@
-import Logger from '../../loaders/logger';
+import Logger from "../../base/logger";
 
-const handlers = {
-    Error: (res, error) => res.status(400).json({
-      message: error.message,
-      extra: error.extra
-    }),
-    DBError: (res, error) => res.status(500).json({
-      message: error.message,
-      extra: error.extra
-    }),
-    AuthorizationError: (res, error) => res.status(401).json({
-      message: error.message,
-      extra: error.extra
-    }),
-    ApplicationError: (res, error) => res.status(400).json({
-      message: error.message,
-      extra: error.extra
-    }),
-    JWTError: (res, error) => res.status(400).json({
-      message: error.message,
-      extra: error.extra
-    }),
-    TokenExpiredError: (res, error) => res.status(400).json({
-      message: "token_expired",
-      extra: error.extra
-    })
-  };
+const isProduction = process.env.NODE_ENV === "production";
 
 const errorHandler = (err, req, res, next) => {
-  console.log(err);
-  const errorHandler = handlers[err.name] || null;
-  if (errorHandler) {
-    errorHandler(res, err);
+  Logger.err(`Error: `, err);
+  if (err.isCustom) {
+    res.status(err.status).json({
+      name: err.name,
+      data: err.data,
+      message: err.message,
+      stacktrace: isProduction ? null : err.stack,
+    });
   } else {
-
-    Logger.err(`Error: `, err);
-
-    next();
+    res.status(500).json({
+      name: err.name,
+      message: err.message,
+      stacktrace: isProduction ? null : err.stack,
+    });
   }
 };
-
 
 export default errorHandler;

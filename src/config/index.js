@@ -1,22 +1,27 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
+import path from "path";
+import AppError from "../utils/error";
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
-const envFound = dotenv.config({
-  path: ".env"
-});
-if (envFound.error) {
+const isDevelopment = process.env.NODE_ENV === "development";
 
-  throw new Error("Couldn't find .env file ");
+if (isDevelopment) {
+  const envFound = dotenv.config({
+    path: path.resolve(__dirname, "../../env/.env"),
+  });
+  if (envFound.error) {
+    throw AppError({ id: "ENV_FILE_NOT_FOUND" });
+  }
 }
 
 export default {
   port: parseInt(process.env.PORT, 10),
   api: {
-    prefix: '/api',
+    prefix: "/api",
   },
   logs: {
-    level: process.env.LOG_LEVEL || 'silly',
+    level: process.env.LOG_LEVEL || "silly",
   },
   jwtSecret: process.env.JWT_SECRET,
   jwtAlgorithm: process.env.JWT_ALGO,
