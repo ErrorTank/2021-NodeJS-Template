@@ -1,13 +1,15 @@
 import { Errors } from "./errors";
 
-const CustomError = (config, data = null) => {
-  const { id, code, message = "" } = config;
+const createCustomError = () => {
   return class extends Error {
-    constructor() {
+    constructor(config = {}) {
       super(id);
+      const { id, data } = config;
+      const errorConfig = Errors[id] || Errors.DEFAULT_ERROR;
+      const { id: errorID, code, message = "" } = errorConfig;
       Error.captureStackTrace(this, this.constructor);
       this.isCustom = true;
-      this.name = id;
+      this.name = errorID;
       this.status = code;
       this.data = data;
       this.message = message;
@@ -15,11 +17,6 @@ const CustomError = (config, data = null) => {
   };
 };
 
-const AppError = (config = {}) => {
-  const { id, data } = config;
-  const errorConfig = Errors[id] || Errors.DEFAULT_ERROR;
-
-  return new CustomError(errorConfig, data);
-};
+const AppError = createCustomError();
 
 export default AppError;

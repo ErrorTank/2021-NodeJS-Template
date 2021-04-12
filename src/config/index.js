@@ -2,8 +2,6 @@ import dotenv from "dotenv";
 import path from "path";
 import AppError from "../utils/error";
 
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
-
 const isDevelopment = process.env.NODE_ENV === "development";
 
 if (isDevelopment) {
@@ -11,7 +9,7 @@ if (isDevelopment) {
     path: path.resolve(__dirname, "../../env/.env"),
   });
   if (envFound.error) {
-    throw AppError({ id: "ENV_FILE_NOT_FOUND" });
+    throw new AppError({ id: "ENV_FILE_NOT_FOUND" });
   }
 }
 

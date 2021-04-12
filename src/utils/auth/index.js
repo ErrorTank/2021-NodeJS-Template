@@ -1,4 +1,4 @@
-import Logger from "../loaders/logger";
+import Logger from "../../base/logger";
 import jwt from "jsonwebtoken";
 import path from "path";
 import fs from "fs";
@@ -40,7 +40,7 @@ const generateUserAuthenticationToken = (user) => {
       },
       (err, token) => {
         if (err) {
-          reject(AppError({ id: "GENERATE_AUTH_JWT_FAILED" }));
+          reject(new AppError({ id: "GENERATE_AUTH_JWT_FAILED" }));
         } else {
           resolve(token);
         }
@@ -59,7 +59,7 @@ const verifyAuthenticatedUser = (token) => {
       },
       (err, user) => {
         if (err) {
-          reject(AppError({ id: "AUTHENTICATE_USER_FAILED", data: {} }));
+          reject(new AppError({ id: "AUTHENTICATE_USER_FAILED", data: {} }));
         } else {
           resolve(user);
         }
